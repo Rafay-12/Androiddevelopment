@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">List</string>
+    <string name="fast_food">Fast Food</string>
+    <string name="burger">Burger</string>
+    <string name="_5_80">5.80$</string>
+    <string name="image_of_item">image of item</string>
+</resources>
