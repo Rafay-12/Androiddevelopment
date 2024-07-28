@@ -14,6 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Destination"
         tools:targetApi="31">
+        <service
+            android:name=".data.network.DestinationAPIClient"
+            android:enabled="true"
+            android:exported="true"></service>
+        <service
+            android:name=".data.network.ApiService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true">
