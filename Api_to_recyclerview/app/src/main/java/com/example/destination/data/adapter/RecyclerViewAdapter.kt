@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.destination.R
 import com.example.destination.data.model.Destination
 
-class RecyclerViewAdapter(private val mList: List<Destination>) :
+class RecyclerViewAdapter(private var mList: List<Destination>) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
 
     class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
@@ -45,5 +45,4 @@ class RecyclerViewAdapter(private val mList: List<Destination>) :
         holder.description.text = descriptionText
         Glide.with(holder.image.context).load(destination.image).into(holder.image)
     }
-
     }
