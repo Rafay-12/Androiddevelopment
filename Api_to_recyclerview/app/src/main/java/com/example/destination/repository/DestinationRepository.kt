@@ -14,6 +14,9 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class DestinationRepository(private val context: Context) {
 
@@ -21,16 +24,27 @@ class DestinationRepository(private val context: Context) {
     private val destinationsKey = DataStoreManager.getStringKey("Destinations")
     private val gson = Gson()
 
-    fun getDestinations(onResult: (List<Destination>?) -> Unit, onError: (Throwable) -> Unit) {
+    suspend fun getDestinations(): List<Destination> = suspendCoroutine { continuation ->
         CoroutineScope(Dispatchers.IO).launch {
-            // First, try to fetch data locally
-            val localData = fetchLocally()
-            if (localData != null) {
-                Log.d("DestinationRepository", "Fetched from local: ${localData.size} destinations")
-                onResult(localData)
-            } else {
-                // If no local data, fetch from API
-                fetchDestinationsFromApi(onResult, onError)
+            try {
+                // First, try to fetch data locally
+                val localData = fetchLocally()
+                if (localData != null) {
+                    Log.d("DestinationRepository", "Fetched from local: ${localData.size} destinations")
+                    continuation.resume(localData)
+                } else {
+                    // If no local data, fetch from API
+                    fetchDestinationsFromApi(
+                        onResult = { destinations ->
+                            continuation.resume(destinations ?: emptyList())
+                        },
+                        onError = { error ->
+                            continuation.resumeWithException(error)
+                        }
+                    )
+                }
+            } catch (e: Exception) {
+                continuation.resumeWithException(e)
             }
         }
     }

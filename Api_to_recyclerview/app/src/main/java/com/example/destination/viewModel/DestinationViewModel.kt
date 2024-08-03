@@ -26,25 +26,11 @@ class DestinationViewModel(application: Application) : AndroidViewModel(applicat
     private fun fetchDestinations() {
         viewModelScope.launch {
             try {
-                // Fetch destinations using the repository
-                withContext(Dispatchers.IO) {
-                    var fetchError: Throwable? = null
-
-                    destinationRepository.getDestinations(
-                        onResult = { destinations ->
-                            Log.d("DestinationViewModel", "Fetched destinations: ${destinations?.size}")
-                            _destinations.postValue(destinations!!)
-                        },
-                        onError = { error ->
-                            Log.e("DestinationViewModel", "Fetch error: $error")
-                            fetchError = error
-                        }
-                    )
-
-                    if (fetchError != null) {
-                        throw fetchError!!
-                    }
+                val result = withContext(Dispatchers.IO) {
+                    destinationRepository.getDestinations()
                 }
+                _destinations.postValue(result)
+                Log.d("DestinationViewModel", "Result size: ${result.size}")
             } catch (e: Exception) {
                 Log.e("DestinationViewModel", "Exception: ${e.message}")
                 _error.postValue(e.message)
