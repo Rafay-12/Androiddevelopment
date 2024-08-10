@@ -23,9 +23,9 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var recyclerView : RecyclerView
     private lateinit var carAdapter: CarAdapter
     private lateinit var searchBar: SearchView
-    private var carList: List<Car> = listOf()
     private var filteredCarList: MutableList<Car> = mutableListOf()
     private val carViewModel: CarViewModel by viewModels()
+    private var carList: List<Car> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +36,19 @@ class SecondActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        observeCars()
         initUi()
         recyclerViewInit()
         setupSearchView()
+    }
+
+    private fun observeCars() {
+        carViewModel.allCars.observe(this) { cars ->
+            carList = cars
+            filteredCarList.clear()
+            filteredCarList.addAll(carList)
+            carAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun initUi(){
@@ -60,8 +70,6 @@ class SecondActivity : AppCompatActivity() {
     }
 
     private fun recyclerViewInit(){
-        carList = intent.getParcelableArrayListExtra("car_list") ?: emptyList()
-        filteredCarList.addAll(carList)
         recyclerView.layoutManager = LinearLayoutManager(this)
         carAdapter = CarAdapter(filteredCarList,
             onEditClick = { car ->

@@ -2,7 +2,6 @@ package com.ffan.roomdatabaseapp.ui.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -26,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var company: EditText
     private lateinit var type: EditText
     private lateinit var model: EditText
-    private var carList: List<Car> = emptyList()
 
     private var carId: Int? = null
 
@@ -39,17 +37,11 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        observeCars()
         initUi()
         setListeners()
         edit()
     }
 
-    private fun observeCars() {
-        carViewModel.allCars.observe(this) { cars ->
-            carList = cars
-        }
-    }
 
     private fun edit(){
         val carName = intent.getStringExtra("car_name")
@@ -113,13 +105,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         display.setOnClickListener {
-            if (carList.isNotEmpty()) {
                 val intent = Intent(this, SecondActivity::class.java)
-                intent.putParcelableArrayListExtra("car_list", ArrayList(carList))
                 startActivity(intent)
-            } else {
-                Log.d("MainActivity", "Car list is empty or null")
-            }
         }
     }
 }
