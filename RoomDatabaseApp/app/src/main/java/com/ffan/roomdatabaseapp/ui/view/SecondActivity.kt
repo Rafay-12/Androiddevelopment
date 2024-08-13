@@ -114,7 +114,6 @@ class SecondActivity : AppCompatActivity() {
             .setPositiveButton("Yes") { _, _ ->
                 carViewModel.deleteCar(car)
                 Toast.makeText(this, "Car deleted successfully!", Toast.LENGTH_SHORT).show()
-                finish()
             }
             .setNegativeButton("No", null)
             .show()
