@@ -28,8 +28,8 @@ fun CustomButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor
         ),
-        shape = RoundedCornerShape(12.dp), // Rounded corners
-        border = BorderStroke(2.dp, Color.White)
+        shape = RoundedCornerShape(30.dp), // Rounded corners
+        border = BorderStroke(2.dp, Color.Gray)
     ) {
         Text(
             text = text,

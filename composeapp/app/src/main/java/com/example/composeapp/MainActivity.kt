@@ -7,27 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.composeapp.ui.Item
-import com.example.composeapp.ui.screens.welcome.WelcomeScreen
+import com.example.composeapp.ui.screens.NavController
 import com.example.composeapp.ui.theme.ComposeAppTheme
 
 class MainActivity : ComponentActivity() {
-    companion object{
-        val itemList = listOf(
-            Item("Duck", R.drawable.duck),
-            Item("Cat",R.drawable.cat),
-            Item("Lion",R.drawable.lion) ,
-            Item("Duck", R.drawable.duck),
-            Item("Cat",R.drawable.cat),
-            Item("Lion",R.drawable.lion) ,
-            Item("Duck", R.drawable.duck),
-            Item("Cat",R.drawable.cat),
-            Item("Lion",R.drawable.lion) ,
-            Item("Duck", R.drawable.duck),
-            Item("Cat",R.drawable.cat),
-            Item("Lion",R.drawable.lion)
-        )
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -37,10 +20,9 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize(),
                          color = MaterialTheme.colorScheme.background
                 ) {
-
+                    NavController()
                 }
             }
         }
     }
 }
-
